@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DSA Mentorship | Stop Memorizing Solutions. Start Thinking Like a Problem Solver.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080d1d;
+    --bg-2: #0e1323;
+    --card: #1a1f30;
+    --surface: #25293a;
+    --border: #464554;
+    --text: #dee1f9;
+    --muted: #c7c4d7;
+    --primary: #8083ff;
+    --primary-ink: #1000a9;
+    --accent: #7bd0ff;
+    --lavender: #c0c1ff;
+    --green: #4edea3;
+    --font-head: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-2);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 72px; }
+  .section { position: relative; overflow: hidden; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.55px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .h2 {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.8px;
+    color: var(--text);
+  }
+  .lead { color: var(--muted); font-size: 15px; line-height: 24px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 13px;
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.88px;
+    text-transform: uppercase;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--primary); color: var(--primary-ink); box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); }
+  .btn-ghost { background: rgba(37,41,58,.6); border-color: var(--border); color: var(--text); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  .glow {
+    position: absolute; border-radius: 9999px; pointer-events: none;
+    filter: blur(120px);
+  }
+  .icon-box {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid;
+    flex-shrink: 0;
+  }
+  svg.ic { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------- HERO ---------- */
+  .hero { background: var(--bg); padding: 56px 0 112px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 32px;
+    align-items: center;
+    position: relative;
+  }
+  .hero-left { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 24px; }
+  .hero-right { grid-column: 8 / span 5; position: relative; display: flex; flex-direction: column; gap: 12px; }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 64px;
+    letter-spacing: -1.68px;
+    color: var(--text);
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, #7bd0ff, #8083ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.sub { max-width: 576px; font-size: 18px; line-height: 29.25px; color: var(--muted); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding-top: 8px; }
+  .trust { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .trust span {
+    background: #1a1f30; border: 1px solid rgba(70,69,84,.5);
+    border-radius: 6px; padding: 5px 13px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .trust span::before { content: "✓"; color: var(--green); }
+
+  .float-tag {
+    position: absolute; z-index: 3;
+    background: rgba(37,41,58,.9);
+    backdrop-filter: blur(12px);
+    border-radius: 9999px;
+    padding: 5px 13px;
+    font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: .88px;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+  }
+  .float-tag.t1 { left: -16px; top: -20px; border: 1px solid rgba(123,208,255,.4); color: var(--accent); }
+  .float-tag.t2 { right: -16px; top: -16px; border: 1px solid rgba(192,193,255,.4); color: var(--lavender); }
+
+  .code-window {
+    background: #161b2b;
+    border: 1px solid rgba(70,69,84,.8);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+    margin-top: 12px;
+  }
+  .code-bar {
+    background: #1a1f30; border-bottom: 1px solid rgba(70,69,84,.6);
+    padding: 12px 16px 13px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .dots { display: flex; gap: 8px; }
+  .dots i { width: 12px; height: 12px; border-radius: 9999px; display: block; }
+  .code-title { font-family: 'Liberation Mono', var(--font-mono), monospace; font-size: 12px; color: var(--muted); }
+  .code-tabs { background: #080d1d; border-bottom: 1px solid rgba(70,69,84,.5); padding: 6px 8px 0; display: flex; gap: 4px; }
+  .code-tab {
+    font-family: var(--font-mono); font-size: 12px; padding: 6px 15px 7px;
+    background: #161b2b; border: 1px solid rgba(70,69,84,.6); border-bottom: none;
+    border-radius: 6px 6px 0 0; color: var(--text);
+  }
+  .code-tab.dim { background: transparent; border: none; color: var(--muted); }
+  .code-body {
+    padding: 16px 0; overflow-x: auto;
+    font-family: var(--font-mono); font-size: 12px; line-height: 19.5px;
+  }
+  .code-line { display: flex; white-space: pre; padding: 0 16px; }
+  .ln { width: 28px; text-align: right; padding-right: 12px; color: rgba(199,196,215,.4); flex-shrink: 0; }
+  .kw { color: var(--lavender); }
+  .ty { color: var(--accent); }
+  .cm { color: var(--muted); font-style: italic; }
+  .tx { color: var(--text); }
+  .code-foot {
+    background: #1a1f30; border-top: 1px solid rgba(70,69,84,.5);
+    padding: 9px 16px 8px; display: flex; justify-content: space-between;
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+  }
+  .code-foot .ok { color: var(--accent); }
+  .hero-badges { display: flex; flex-direction: column; gap: 8px; }
+  .hero-badges .pill { background: #1a1f30; border-color: rgba(70,69,84,.5); color: var(--muted); width: fit-content; text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+  .progress {
+    background: rgba(37,41,58,.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(70,69,84,.8);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .progress .pico {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: rgba(192,193,255,.2); border: 1px solid rgba(192,193,255,.4);
+    display: flex; align-items: center; justify-content: center; color: var(--lavender); flex-shrink: 0;
+  }
+  .progress .body { flex: 1; min-width: 0; }
+  .progress .row { display: flex; justify-content: space-between; font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--text); }
+  .progress .row b { font-family: var(--font-mono); color: var(--accent); font-size: 12px; font-weight: 700; }
+  .bar { height: 6px; background: #080d1d; border-radius: 9999px; margin-top: 10px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 78%; background: linear-gradient(90deg, #c0c1ff, #7bd0ff); border-radius: 9999px; }
+  .progress small { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+
+  /* ---------- MENTOR ---------- */
+  .mentor { background: var(--bg); padding: 96px 0; }
+  .mentor-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: center; }
+  .mentor-card { padding: 33px; display: flex; flex-direction: column; gap: 24px; position: relative; overflow: hidden; }
+  .mentor-head { display: flex; gap: 16px; align-items: center; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 12px; padding: 2px; position: relative; flex-shrink: 0;
+    background: linear-gradient(135deg, #8083ff 0%, #7bd0ff 100%);
+  }
+  .avatar .inner { width: 100%; height: 100%; border-radius: 10px; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+  .avatar .dot { position: absolute; right: -4px; bottom: -4px; width: 16px; height: 16px; border-radius: 9999px; background: var(--green); border: 2px solid var(--card); }
+  .mentor-head h3 { font-family: var(--font-head); font-weight: 600; font-size: 20px; color: var(--text); }
+  .mentor-head .role { font-size: 13px; color: var(--accent); font-weight: 500; }
+  .mentor-head .sub2 { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .metrics { display: flex; gap: 12px; }
+  .metric { flex: 1; background: rgba(37,41,58,.6); border: 1px solid rgba(70,69,84,.4); border-radius: 8px; padding: 13px; }
+  .metric .k { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .88px; text-transform: uppercase; color: var(--muted); }
+  .metric .v { font-family: var(--font-head); font-weight: 700; font-size: 20px; color: var(--text); margin: 2px 0; }
+  .metric .v.acc { color: var(--accent); }
+  .metric .l { font-size: 12px; color: var(--muted); }
+  .stack { border-top: 1px solid rgba(70,69,84,.5); padding-top: 17px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack span { background: var(--bg); border-radius: 4px; padding: 4px 10px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .stack span.acc { color: var(--accent); }
+
+  .mentor-right { display: flex; flex-direction: column; gap: 15px; }
+  .mentor-right .h2 { font-size: 40px; }
+  .mentor-right p { color: var(--muted); font-size: 15px; line-height: 24.4px; }
+  .quote {
+    background: rgba(26,31,48,.4);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 8px 18px;
+    font-style: italic; font-weight: 500; font-size: 18px; line-height: 28px; color: var(--accent);
+  }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .feature { background: var(--card); border: 1px solid rgba(70,69,84,.5); border-radius: 12px; padding: 17px; display: flex; flex-direction: column; gap: 6px; }
+  .feature .fi { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+  .feature h4 { font-family: var(--font-head); font-weight: 600; font-size: 16px; color: var(--text); }
+  .feature p { font-size: 13px; line-height: 20px; color: var(--muted); }
+
+  /* ---------- SERVICES ---------- */
+  .services { background: var(--bg-2); padding: 96px 40px; }
+  .center-head { max-width: 768px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+  .services .stack-wrap { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px; align-items: center; }
+  .svc-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px; width: 100%; }
+  .svc { padding: 33px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+  .svc-top { display: flex; justify-content: space-between; align-items: center; }
+  .svc h3 { font-family: var(--font-head); font-weight: 600; font-size: 20px; color: var(--text); margin-top: 13px; }
+  .svc p { font-size: 15px; line-height: 24.4px; color: var(--muted); margin-top: 11px; }
+  .svc ul { list-style: none; border-top: 1px solid rgba(70,69,84,.4); padding-top: 17px; display: flex; flex-direction: column; gap: 8px; }
+  .svc li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; }
+  .svc li::before { content: "✓"; color: var(--green); }
+
+  /* ---------- ROADMAP ---------- */
+  .roadmap { background: var(--bg); padding: 96px 40px; }
+  .roadmap .wrap-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px; align-items: center; }
+  .steps { width: 100%; display: flex; flex-direction: column; gap: 32px; }
+  .step { display: flex; gap: 24px; padding: 25px; border-radius: 16px; background: var(--card); border: 1px solid var(--border); }
+  .step-side { width: 144px; flex-shrink: 0; border-right: 1px solid rgba(70,69,84,.5); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding-right: 25px; text-align: center; }
+  .step-num { font-family: var(--font-mono); font-weight: 700; font-size: 14px; }
+  .step-tag { font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: .88px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; }
+  .step-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .step-body h3 { font-family: var(--font-head); font-weight: 600; font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .step-body p { font-size: 15px; line-height: 24px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 8px; align-items: center; }
+  .chip { background: var(--surface); border: 1px solid rgba(70,69,84,.6); border-radius: 4px; padding: 5px 13px; font-family: var(--font-mono); font-size: 12px; color: var(--text); }
+  .chip.acc { color: var(--accent); }
+  .chip.lav { color: var(--lavender); }
+  .chip.grn { color: var(--green); }
+  .chip.tag { display: inline-flex; gap: 8px; align-items: center; padding: 7px 13px; font-family: var(--font-body); font-size: 14px; font-weight: 600; border-radius: 8px; }
+  .chip.tag::before { content: ""; width: 8px; height: 8px; border-radius: 9999px; background: var(--accent); }
+  .step .tone-a { color: var(--accent); background: rgba(123,208,255,.1); }
+  .step .tone-b { color: var(--lavender); background: rgba(192,193,255,.1); }
+  .step .tone-c { color: var(--green); background: rgba(78,222,163,.1); }
+  .step .arrow { color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi { background: var(--bg-2); padding: 96px 40px; }
+  .testi .inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px; align-items: center; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 32px; width: 100%; }
+  .t-card { padding: 33px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+  .t-top { display: flex; justify-content: space-between; align-items: center; }
+  .t-quote { font-style: italic; font-size: 15px; line-height: 24.4px; color: var(--muted); }
+  .t-foot { border-top: 1px solid rgba(70,69,84,.4); padding-top: 17px; display: flex; gap: 12px; align-items: center; }
+  .t-init {
+    width: 38px; height: 40px; border-radius: 9999px; background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-weight: 700; font-size: 14px; flex-shrink: 0;
+  }
+  .t-who { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--text); line-height: 20px; }
+  .t-meta { font-size: 13px; color: var(--muted); line-height: 20px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { background: var(--bg); padding: 96px 220px; }
+  .faq .inner { max-width: 840px; margin: 0 auto; padding: 0 32px; display: flex; flex-direction: column; gap: 56px; }
+  .faq-head { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .acc-item { background: var(--card); border: 1px solid rgba(70,69,84,.7); border-radius: 12px; overflow: hidden; }
+  .acc-btn {
+    width: 100%; background: none; border: none; color: var(--text); cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; padding: 20px; text-align: left;
+    font-family: var(--font-head); font-weight: 600; font-size: 17px;
+  }
+  .acc-btn .plus { color: var(--accent); font-size: 22px; line-height: 1; transition: transform .2s ease; font-family: var(--font-body); font-weight: 400; }
+  .acc-item.open .acc-btn .plus { transform: rotate(45deg); }
+  .acc-panel { display: none; padding: 0 20px 20px; color: var(--muted); font-size: 15px; line-height: 24px; }
+  .acc-item.open .acc-panel { display: block; }
+
+  /* ---------- CTA + FORM ---------- */
+  .cta { background: var(--bg-2); padding: 96px 72px; }
+  .cta-card {
+    position: relative; overflow: hidden;
+    background: linear-gradient(180deg, #1a1f30, #080d1d);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 57px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,.25);
+  }
+  .cta-grid { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap: 40px; align-items: center; position: relative; z-index: 1; }
+  .cta-left { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 20px; }
+  .cta-left .h2 { font-size: 40px; }
+  .cta-left p.body { font-size: 18px; line-height: 29.25px; color: var(--muted); }
+  .cta-left .q { font-weight: 500; font-size: 15px; color: var(--accent); }
+  .cta-foot { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding-top: 8px; }
+  .cta-foot .btn { padding: 16px 32px; border-radius: 12px; }
+  .cta-foot .note { font-family: var(--font-mono); font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .form-card {
+    grid-column: 8 / span 5;
+    background: rgba(37,41,58,.9);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 33px;
+    display: flex; flex-direction: column; gap: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+  }
+  .form-head { display: flex; justify-content: space-between; align-items: center; }
+  .form-head h3 { font-family: var(--font-head); font-weight: 600; font-size: 20px; color: var(--text); }
+  form { display: flex; flex-direction: column; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: .88px; text-transform: uppercase; color: var(--muted); }
+  .field input {
+    height: 44px; padding: 12px 15px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); font-family: var(--font-body); font-size: 15px; outline: none;
+  }
+  .field input::placeholder { color: rgba(199,196,215,.4); }
+  .field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(123,208,255,.15); }
+  .submit {
+    background: var(--accent); color: #00354a; border: none; border-radius: 8px;
+    padding: 12px 16px; font-family: var(--font-body); font-weight: 700; font-size: 14px; cursor: pointer;
+    display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 4px;
+  }
+  .submit:disabled { opacity: .6; cursor: not-allowed; }
+  .status { font-size: 14px; min-height: 20px; text-align: center; }
+  .status.ok { color: var(--green); }
+  .status.err { color: #ffb4ab; }
+
+  .footer-note { text-align: center; padding: 24px; color: var(--muted); font-size: 12px; background: var(--bg); font-family: var(--font-mono); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1100px) {
+    .wrap { padding: 0 40px; }
+    .hero h1 { font-size: 46px; line-height: 54px; letter-spacing: -1.2px; }
+    .faq { padding: 96px 40px; }
+  }
+  @media (max-width: 900px) {
+    .hero-grid, .cta-grid, .mentor-grid { grid-template-columns: 1fr; }
+    .hero-left, .hero-right, .cta-left, .form-card { grid-column: auto; }
+    .hero-right { margin-top: 24px; }
+    .float-tag.t1 { left: 8px; } .float-tag.t2 { right: 8px; }
+    .features { grid-template-columns: 1fr; }
+    .svc-grid, .testi-grid { grid-template-columns: 1fr; }
+    .h2, .mentor-right .h2 { font-size: 32px; line-height: 40px; }
+    .cta-card { padding: 32px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+    .hero { padding: 40px 0 72px; }
+    .hero h1 { font-size: 36px; line-height: 44px; letter-spacing: -0.8px; }
+    .hero p.sub { font-size: 16px; line-height: 26px; }
+    .services, .roadmap, .testi, .mentor, .cta { padding-left: 20px; padding-right: 20px; }
+    .faq { padding: 72px 20px; }
+    .faq .inner { padding: 0; }
+    .step { flex-direction: column; padding: 20px; }
+    .step-side { width: 100%; border-right: none; border-bottom: 1px solid rgba(70,69,84,.5); padding: 0 0 14px; flex-direction: row; justify-content: flex-start; }
+    .metrics { flex-direction: column; }
+    .code-title { font-size: 11px; }
+    .cta-foot .btn { width: 100%; justify-content: center; }
+    .svc { padding: 24px; }
+    .t-card, .mentor-card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="section hero" id="top">
+  <div class="glow" style="width:480px;height:480px;left:25%;top:-96px;background:rgba(192,193,255,.1);"></div>
+  <div class="glow" style="width:400px;height:400px;right:-96px;top:33%;background:rgba(123,208,255,.1);filter:blur(120px);"></div>
+
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <span class="pill" style="background:#1a1f30;border-color:rgba(70,69,84,.6);color:var(--accent);width:fit-content;">
+          <span style="width:8px;height:8px;border-radius:9999px;background:var(--accent);display:inline-block;"></span>
+          DSA MENTORSHIP FOR FUTURE SOFTWARE ENGINEERS
+        </span>
+
+        <h1>Stop Memorizing<br />Solutions. Start Thinking<br />Like a <span class="grad">Problem Solver.</span></h1>
+
+        <p class="sub">Learning DSA can feel overwhelming, especially when you don't know where to start. I'll help you understand concepts, develop problem-solving skills, and prepare for coding interviews with a structured learning approach.</p>
+
+        <div class="cta-row">
+          <a href="#enquiry" class="btn btn-primary">Start Your DSA Journey
+            <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#roadmap" class="btn btn-ghost">
+            <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>
+            Explore Learning Roadmap
+          </a>
+        </div>
+
+        <div class="trust">
+          <span>Beginner-Friendly Learning</span>
+          <span>Structured Practice</span>
+          <span>Interview-Focused Preparation</span>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="float-tag t1">
+          <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px;"><path d="M3 15a9 9 0 0 1 18 0"/><path d="M12 15l4-4"/></svg>
+          Sliding Window [O(n)]
+        </div>
+        <div class="float-tag t2">
+          <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px;"><circle cx="7" cy="12" r="3"/><circle cx="17" cy="12" r="3"/></svg>
+          Two Pointers [Left/Right]
+        </div>
+
+        <div class="code-window">
+          <div class="code-bar">
+            <div class="dots">
+              <i style="background:#ef4444"></i><i style="background:#f59e0b"></i><i style="background:#10b981"></i>
+            </div>
+            <span class="code-title">TwoSum.java — DSA Workspace</span>
+            <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px;color:var(--muted)"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </div>
+          <div class="code-tabs">
+            <div class="code-tab"><span style="color:var(--accent);font-weight:700;">J</span> TwoSum.java</div>
+            <div class="code-tab dim"><span style="color:var(--lavender);font-weight:700;">J</span> SlidingWindow.java</div>
+          </div>
+          <div class="code-body">
+            <div class="code-line"><span class="ln">1</span><span class="cm">// Intuition: Use HashMap to store complement</span></div>
+            <div class="code-line"><span class="ln">2</span><span class="cm">// Target = x + y =&gt; x = Target - y</span></div>
+            <div class="code-line"><span class="ln">3</span><span class="kw">class</span> <span class="ty">Solution</span><span class="tx">{</span></div>
+            <div class="code-line"><span class="ln">4</span>  <span class="kw">public int[]</span> <span class="tx">twoSum(</span><span class="kw">int</span><span class="tx">[] nums, </span><span class="kw">int</span><span class="tx"> target) {</span></div>
+            <div class="code-line"><span class="ln">5</span>    <span class="ty">Map</span><span class="tx">&lt;</span><span class="ty">Integer</span><span class="tx">,</span><span class="ty">Integer</span><span class="tx">&gt; map = </span><span class="kw">new</span> <span class="ty">HashMap</span><span class="tx">&lt;&gt;();</span></div>
+            <div class="code-line"><span class="ln">6</span>    <span class="tx">for(</span><span class="kw">int</span><span class="tx"> i = 0; i &lt; nums.length; i++) {</span></div>
+            <div class="code-line"><span class="ln">7</span>      <span class="kw">int</span><span class="tx"> diff = target - nums[i];</span></div>
+            <div class="code-line"><span class="ln">8</span>      <span class="kw">if</span><span class="tx">(map.</span><span class="ty">containsKey</span><span class="tx">(diff)) {</span></div>
+            <div class="code-line"><span class="ln">9</span>        <span class="kw">return new int</span><span class="tx">[] { map.</span><span class="ty">get</span><span class="tx">(diff), i };</span></div>
+            <div class="code-line"><span class="ln">10</span>      <span class="tx">}</span></div>
+            <div class="code-line"><span class="ln">11</span>      <span class="tx">map.</span><span class="ty">put</span><span class="tx">(nums[i], i);</span></div>
+            <div class="code-line"><span class="ln">12</span>    <span class="tx">}</span></div>
+            <div class="code-line"><span class="ln">13</span>    <span class="kw">return new int</span><span class="tx">[] {};</span></div>
+            <div class="code-line"><span class="ln">14</span>  <span class="tx">}</span></div>
+            <div class="code-line"><span class="ln">15</span><span class="tx">}</span></div>
+          </div>
+          <div class="code-foot">
+            <span><span class="ok">●</span> Java 21 • Clean Complexity</span>
+            <span style="color:var(--accent)">Time: O(n) | Space: O(n)</span>
+          </div>
+        </div>
+
+        <div class="hero-badges">
+          <span class="pill"><svg class="ic" viewBox="0 0 24 24" style="width:11px;height:11px;color:var(--accent)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>HashMap [Lookup O(1)]</span>
+          <span class="pill"><svg class="ic" viewBox="0 0 24 24" style="width:11px;height:11px;color:var(--lavender)"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="M9 12h6"/></svg>Linked List [Fast/Slow Ptr]</span>
+        </div>
+
+        <div class="progress">
+          <div class="pico"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20l6-6 4 4 6-8"/><circle cx="20" cy="6" r="1.5"/></svg></div>
+          <div class="body">
+            <div class="row"><span>Week 4: Pattern Mastery</span><b>78%</b></div>
+            <div class="bar"><i></i></div>
+            <small>42 Problems Solved with Intuition</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MENTOR ============ -->
+<section class="section mentor">
+  <div class="wrap">
+    <div class="mentor-grid">
+      <div class="card mentor-card">
+        <div class="mentor-head">
+          <div class="avatar">
+            <div class="inner">
+              <svg class="ic" viewBox="0 0 24 24" style="width:30px;height:24px;"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M6 9l3 3-3 3M13 15h5"/></svg>
+            </div>
+            <span class="dot"></span>
+          </div>
+          <div>
+            <h3>[YOUR NAME]</h3>
+            <div class="role">Senior Software Engineer &amp; DSA Mentor</div>
+            <div class="sub2">Ex-FAANG / Tech Lead Mentor</div>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="k">Experience</div>
+            <div class="v">150+</div>
+            <div class="l">Students Mentored</div>
+          </div>
+          <div class="metric">
+            <div class="k">Track Record</div>
+            <div class="v acc">500+</div>
+            <div class="l">LeetCode Solved</div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <span>Java</span><span>C++</span><span>Python</span><span>System Design</span><span class="acc">Mock Interviews</span>
+        </div>
+      </div>
+
+      <div class="mentor-right">
+        <span class="eyebrow">About Your Mentor</span>
+        <h2 class="h2">Making DSA Easier to Understand,<br />One Concept at a Time.</h2>
+        <p>DSA shouldn't feel like a subject you have to struggle through alone.</p>
+        <p>I believe that anyone can become a better problem solver with the right guidance, a clear learning path, and consistent effort.</p>
+        <p>My approach is simple: instead of rushing through hundreds of problems, we focus on understanding how and why a solution works.</p>
+        <p>From learning your first array pattern to solving interview-level problems, I'll help you build the confidence to approach coding challenges independently.</p>
+
+        <div class="quote">"My goal isn't just to help you solve problems. It's to help you learn how to think."</div>
+
+        <div class="features">
+          <div class="feature">
+            <div class="fi" style="background:rgba(192,193,255,.2);color:var(--lavender)"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></div>
+            <h4>Concept-First</h4>
+            <p>Deep dive into underlying mechanics before jumping into code.</p>
+          </div>
+          <div class="feature">
+            <div class="fi" style="background:rgba(123,208,255,.2);color:var(--accent)"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4l6 6M20 20l-6-6M14 4h6v6M10 20H4v-6"/></svg></div>
+            <h4>Practical Solving</h4>
+            <p>Developing muscle memory for systematic pattern recognition.</p>
+          </div>
+          <div class="feature">
+            <div class="fi" style="background:rgba(78,222,163,.2);color:var(--green)"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/></svg></div>
+            <h4>Consistent Progress</h4>
+            <p>Daily bite-sized milestones over frustrating burnout marathons.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section services" id="services">
+  <div class="stack-wrap">
+    <div class="center-head">
+      <span class="eyebrow">Comprehensive Mentorship</span>
+      <h2 class="h2">Everything You Need to Prepare for<br />Coding Interviews</h2>
+      <p class="lead">Whether you're starting from scratch or revising for placements, get guidance that matches your current skill level.</p>
+    </div>
+
+    <div class="svc-grid">
+      <div class="card svc">
+        <div>
+          <div class="svc-top">
+            <div class="icon-box" style="background:rgba(128,131,255,.2);border-color:rgba(192,193,255,.3);color:var(--lavender)"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><path d="M8 4c-2 0-3 1-3 3v3c0 1-1 2-2 2 1 0 2 1 2 2v3c0 2 1 3 3 3M16 4c2 0 3 1 3 3v3c0 1 1 2 2 2-1 0-2 1-2 2v3c0 2-1 3-3 3"/></svg></div>
+            <span class="pill" style="background:rgba(192,193,255,.1);border-color:rgba(192,193,255,.3);color:var(--lavender)">Core Offering</span>
+          </div>
+          <h3>DSA Mentorship</h3>
+          <p>Understand important DSA concepts through beginner-friendly explanations, coding examples, dry runs, and practical problem-solving sessions.</p>
+        </div>
+        <ul>
+          <li>In-depth array, list, tree &amp; graph foundations</li>
+          <li>Line-by-line visual dry runs</li>
+        </ul>
+      </div>
+
+      <div class="card svc">
+        <div>
+          <div class="svc-top">
+            <div class="icon-box" style="background:rgba(123,208,255,.2);border-color:rgba(123,208,255,.3);color:var(--accent)"><svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></div>
+            <span class="pill" style="background:rgba(123,208,255,.1);border-color:rgba(123,208,255,.3);color:var(--accent)">Placement Ready</span>
+          </div>
+          <h3>Interview Preparation</h3>
+          <p>Prepare for technical interviews with commonly tested coding patterns, company-focused practice, and strategies to approach unfamiliar questions.</p>
+        </div>
+        <ul>
+          <li>Company-specific question trends &amp; heuristics</li>
+          <li>Live mock coding rounds with feedback</li>
+        </ul>
+      </div>
+
+      <div class="card svc">
+        <div>
+          <div class="svc-top">
+            <div class="icon-box" style="background:rgba(78,222,163,.2);border-color:rgba(78,222,163,.3);color:var(--green)"><svg class="ic" viewBox="0 0 24 24" style="width:20px;height:22px"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+            <span class="pill" style="background:rgba(78,222,163,.1);border-color:rgba(78,222,163,.3);color:var(--green)">1-on-1 Customized</span>
+          </div>
+          <h3>Personalized Study Plans</h3>
+          <p>Get a realistic learning schedule based on your current knowledge, available time, and placement goals. No one-size-fits-all roadmaps.</p>
+        </div>
+        <ul>
+          <li>Tailored weekly milestones &amp; revision buffers</li>
+          <li>Progress audit &amp; pacing adjustments</li>
+        </ul>
+      </div>
+
+      <div class="card svc">
+        <div>
+          <div class="svc-top">
+            <div class="icon-box" style="background:rgba(192,193,255,.2);border-color:rgba(192,193,255,.3);color:var(--lavender)"><svg class="ic" viewBox="0 0 24 24" style="width:26px;height:25px"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="6" cy="12" r="0"/><path d="M8 6h8M7 8l4 8M17 8l-4 8"/></svg></div>
+            <span class="pill" style="background:rgba(192,193,255,.1);border-color:rgba(192,193,255,.3);color:var(--lavender)">Interactive Live</span>
+          </div>
+          <h3>Problem-Solving Sessions</h3>
+          <p>Learn how to break down coding questions, identify patterns, choose the right approach, and improve your solutions step by step.</p>
+        </div>
+        <ul>
+          <li>Edge-case deduction techniques</li>
+          <li>Big-O space &amp; time complexity optimization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="section roadmap" id="roadmap">
+  <div class="wrap-inner">
+    <div class="center-head">
+      <span class="eyebrow">Proven Roadmap</span>
+      <h2 class="h2">A Clear Path From Beginner to Confident<br />Problem Solver</h2>
+      <p class="lead">No random problem lists. No unnecessary pressure. Just a structured approach that helps you make progress.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-side">
+          <div class="step-num" style="color:var(--accent)">01 // INIT</div>
+          <div class="step-tag tone-a">Stage 1</div>
+        </div>
+        <div class="step-body">
+          <h3><svg class="ic" viewBox="0 0 24 24" style="color:var(--accent)"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>Understand Your Starting Point</h3>
+          <p>We identify your current programming knowledge, strengths, weak areas, and preparation goals.</p>
+          <div class="chips"><span class="chip tag">Diagnostic Skill Assessment &amp; Baseline Benchmark</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-side">
+          <div class="step-num" style="color:var(--lavender)">02 // CORE</div>
+          <div class="step-tag tone-b">Stage 2</div>
+        </div>
+        <div class="step-body">
+          <h3><svg class="ic" viewBox="0 0 24 24" style="color:var(--accent)"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="15" width="6" height="6"/><path d="M9 6h4v12h2"/></svg>Build Strong Fundamentals</h3>
+          <p>Learn essential data structures and algorithms with simple explanations, examples, and visual dry runs.</p>
+          <div class="chips">
+            <span class="chip">Arrays &amp; Strings</span><span class="arrow">→</span>
+            <span class="chip">Stacks &amp; Queues</span><span class="arrow">→</span>
+            <span class="chip">Linked Lists</span><span class="arrow">→</span>
+            <span class="chip">Recursion Basics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-side">
+          <div class="step-num" style="color:var(--green)">03 // PATTERNS</div>
+          <div class="step-tag tone-c">Stage 3</div>
+        </div>
+        <div class="step-body">
+          <h3><svg class="ic" viewBox="0 0 24 24" style="color:var(--green)"><path d="M12 3l-7 12h14z"/><circle cx="12" cy="19" r="2"/></svg>Master Problem-Solving Patterns</h3>
+          <p>Practice patterns such as Sliding Window, Two Pointers, Hashing, Prefix Sum, and Linked Lists. Understand when and why to use each approach.</p>
+          <div class="chips">
+            <span class="chip acc" style="background:rgba(123,208,255,.1);border-color:rgba(123,208,255,.3)">Sliding Window</span>
+            <span class="chip lav" style="background:rgba(192,193,255,.1);border-color:rgba(192,193,255,.3)">Two Pointers</span>
+            <span class="chip grn" style="background:rgba(78,222,163,.1);border-color:rgba(78,222,163,.3)">Prefix Sum</span>
+            <span class="chip">Fast &amp; Slow Pointer</span>
+            <span class="chip">Monotonic Stack</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-side">
+          <div class="step-num" style="color:var(--accent)">04 // DRILL</div>
+          <div class="step-tag tone-a">Stage 4</div>
+        </div>
+        <div class="step-body">
+          <h3><svg class="ic" viewBox="0 0 24 24" style="color:var(--accent)"><path d="M4 6l2 2 3-3M4 14l2 2 3-3M12 6h8M12 14h8"/></svg>Practice With Purpose</h3>
+          <p>Solve carefully selected problems, revisit previous concepts, and gradually increase difficulty without mindless grind.</p>
+          <div class="chips">
+            <span class="chip tag" style="color:var(--text)">Curated 75 High-Yield Problem Track</span>
+            <span class="chip" style="border:none;background:none;color:var(--muted);padding-left:0">Spaced Repetition Schedule</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-side">
+          <div class="step-num" style="color:var(--lavender)">05 // READY</div>
+          <div class="step-tag tone-b">Stage 5</div>
+        </div>
+        <div class="step-body">
+          <h3><svg class="ic" viewBox="0 0 24 24" style="color:var(--lavender)"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M17 11l2 2 4-4"/></svg>Prepare for Interviews</h3>
+          <p>Work on timed problem-solving, interview-style questions, complexity analysis, and articulating your thought process clearly under pressure.</p>
+          <div class="chips">
+            <span class="chip acc">Mock Technical Screen</span>
+            <span class="chip lav">Big-O Tradeoff Defense</span>
+            <span class="chip grn">Verbal Communication Polish</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section testi">
+  <div class="inner">
+    <div class="center-head">
+      <span class="eyebrow">Proven Outcomes</span>
+      <h2 class="h2">Every Small Improvement Counts.</h2>
+      <p class="lead">Learning DSA is a journey. Sometimes success means solving a problem independently for the first time. Sometimes it means finally understanding a concept that once felt impossible. The focus is on helping learners make measurable progress, develop confidence, and become independent problem solvers.</p>
+      <p style="font-family:var(--font-head);font-weight:600;font-size:16px;color:var(--accent);">Real learning. Real effort. Real progress.</p>
+    </div>
+
+    <div class="testi-grid">
+      <div class="card t-card">
+        <div>
+          <div class="t-top">
+            <span class="pill" style="background:rgba(123,208,255,.1);border-color:rgba(123,208,255,.3);color:var(--accent);text-transform:none;letter-spacing:.88px">Cracked First Technical Round</span>
+            <span style="color:var(--muted);font-family:var(--font-body);font-size:14px;font-weight:700">99</span>
+          </div>
+          <p class="t-quote" style="margin-top:15px">"I used to freeze whenever I saw recursion or dynamic programming problems. In our 1-on-1 sessions, we broke down problems on dry-run visual boards instead of jumping into code. That intuition shift allowed me to solve state-transition questions entirely on my own during on-campus drives."</p>
+        </div>
+        <div class="t-foot">
+          <div class="t-init" style="color:var(--accent)">S1</div>
+          <div>
+            <div class="t-who">[Student Feedback: 3rd Year Aspirant]</div>
+            <div class="t-meta">Tier-2 College • Campus Placements</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card t-card">
+        <div>
+          <div class="t-top">
+            <span class="pill" style="background:rgba(192,193,255,.1);border-color:rgba(192,193,255,.3);color:var(--lavender);text-transform:none;letter-spacing:.88px">Landed Software Engineer Role</span>
+            <span style="color:var(--muted);font-family:var(--font-body);font-size:14px;font-weight:700">99</span>
+          </div>
+          <p class="t-quote" style="margin-top:15px">"Coming from a mechanical background, DSA seemed like an impenetrable barrier. The structured study schedule kept me disciplined without burnout. We tackled patterns systematically: Two Pointers, Hashing, then Trees. No rote memorization, just clean algorithmic fundamentals."</p>
+        </div>
+        <div class="t-foot">
+          <div class="t-init" style="color:var(--lavender)">S2</div>
+          <div>
+            <div class="t-who">[Student Feedback: Career Switcher]</div>
+            <div class="t-meta">Non-CS Graduate • High-Growth FinTech</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card t-card">
+        <div>
+          <div class="t-top">
+            <span class="pill" style="background:rgba(78,222,163,.1);border-color:rgba(78,222,163,.3);color:var(--green);text-transform:none;letter-spacing:.88px">Multiple Product Offers</span>
+            <span style="color:var(--muted);font-family:var(--font-body);font-size:14px;font-weight:700">99</span>
+          </div>
+          <p class="t-quote" style="margin-top:15px">"I had solved 200+ LeetCode problems blindly but still failed live interviews because I couldn't speak through my thoughts. The mock interview sessions and complexity analysis feedback turned my nervousness into composure. I ended up with two competitive product company offers."</p>
+        </div>
+        <div class="t-foot">
+          <div class="t-init" style="color:var(--green)">S3</div>
+          <div>
+            <div class="t-who">[Student Feedback: Final Year Student]</div>
+            <div class="t-meta">Computer Science • Product Offers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section faq" id="faq">
+  <div class="inner">
+    <div class="faq-head">
+      <span class="eyebrow">Got Questions?</span>
+      <h2 class="h2">Questions? Let's Clear Them Up.</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="acc-item">
+        <button class="acc-btn">Can I start learning DSA as a complete beginner? <span class="plus">+</span></button>
+        <div class="acc-panel">Yes. We begin with a diagnostic assessment and build from arrays and strings, so you never jump into a problem before you understand the concept behind it.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">Which programming language will be used? <span class="plus">+</span></button>
+        <div class="acc-panel">Sessions are taught in Java, with support for C++ and Python. Tell me your preferred language and we'll use it throughout.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">How much time should I spend practising every day? <span class="plus">+</span></button>
+        <div class="acc-panel">Most learners do well with 1 to 2 focused hours a day. Your personalized study plan sets a realistic schedule based on your available time.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">Will this help me prepare for campus placements? <span class="plus">+</span></button>
+        <div class="acc-panel">Yes. The roadmap covers the patterns, problem sets, and mock interview rounds commonly used in campus placement and technical screening.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">What if I struggle to solve problems on my own? <span class="plus">+</span></button>
+        <div class="acc-panel">That is expected. Our 1-on-1 problem-solving sessions walk through how to break a question down, so you build the thinking process, not just the answer.</div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-btn">Do I need prior DSA knowledge? <span class="plus">+</span></button>
+        <div class="acc-panel">No prior DSA knowledge is needed. Basic programming familiarity is helpful, and the diagnostic assessment will identify where you should start.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA + ENQUIRY FORM ============ -->
+<section class="section cta" id="enquiry">
+  <div class="cta-card">
+    <div class="glow" style="width:320px;height:320px;left:-128px;top:-128px;background:rgba(192,193,255,.2);filter:blur(64px);"></div>
+    <div class="glow" style="width:320px;height:320px;right:-128px;bottom:-128px;background:rgba(123,208,255,.2);filter:blur(64px);"></div>
+
+    <div class="cta-grid">
+      <div class="cta-left">
+        <span class="pill" style="background:rgba(123,208,255,.1);border-color:rgba(123,208,255,.3);color:var(--accent);width:fit-content;text-transform:uppercase">Ready to Begin</span>
+        <h2 class="h2">Your Placement Preparation<br />Deserves a Better Plan.</h2>
+        <p class="body" style="font-size:18px;line-height:29.25px;color:var(--muted);">You don't have to figure out everything on your own. Whether you're struggling with your first coding problem or preparing for upcoming interviews, let's build a learning path that works for you. Start with one conversation. Take the first step towards becoming a better problem solver.</p>
+        <p class="q">Have questions? Reach out and let's discuss your learning goals.</p>
+        <div class="cta-foot">
+          <a href="#enquiry-form" class="btn btn-primary">Let's Get Started
+            <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <span class="note"><svg class="ic" viewBox="0 0 24 24" style="width:12px;height:15px;color:var(--green)"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>1-on-1 personalized initial roadmap assessment</span>
+        </div>
+      </div>
+
+      <div class="form-card" id="enquiry-form">
+        <div class="form-head">
+          <h3>Start the Conversation</h3>
+          <svg class="ic" viewBox="0 0 24 24" style="width:20px;height:22px;color:var(--accent)"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+
+        <form id="enquiryForm" novalidate>
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input id="name" name="name" type="text" placeholder="e.g. Alex Chen" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="alex@university.edu" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" placeholder="e.g. 9876543210" autocomplete="tel" required />
+          </div>
+
+          <button class="submit" type="submit" id="submitBtn">Book Free Discovery Chat
+            <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:12px"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+          </button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-note">© DSA Mentorship. Built for future software engineers.</div>
+
+<script>
+  // Google Apps Script Web App URL (deployed)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxRRCHGY8d9b1Z0UdzcY33R4ldp-5QqmYpn5RwtijAN2iptUq5sFqzP04e6P2OBgbkR/exec";
+
+  // Cashfree payment link (opened after the enquiry is saved)
+  const PAYMENT_URL = "https://payments.cashfree.com/forms/getaudit";
+
+  // FAQ accordion
+  document.querySelectorAll(".acc-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.parentElement.classList.toggle("open");
+    });
+  });
+
+  const form = document.getElementById("enquiryForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const statusEl = document.getElementById("status");
+
+  function setStatus(msg, type) {
+    statusEl.textContent = msg;
+    statusEl.className = "status " + (type || "");
+  }
+
+  function showSuccess() {
+    setStatus("Thanks! We've received your details. Opening payment page…", "ok");
+    form.reset();
+    submitBtn.disabled = false;
+    window.open(PAYMENT_URL, "_blank", "noopener");
+  }
+
+  function showError() {
+    setStatus("Something went wrong. Please check your connection and try again.", "err");
+    submitBtn.disabled = false;
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+
+    if (!name || !email || !phone) {
+      setStatus("Please fill in name, email and phone.", "err");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    setStatus("Submitting…", "");
+
+    const url = SCRIPT_URL + "?" + new URLSearchParams({ name, email, phone });
+
+    fetch(url, { method: "GET", mode: "no-cors" })
+      .then(() => showSuccess())
+      .catch(() => showError());
+  });
+</script>
+</body>
+</html>
